@@ -1,0 +1,10 @@
+---
+export interface Props {
+    name: string
+    marginClass?: string
+    isActive?: boolean;
+}
+const {name, marginClass, isActive = false} = Astro.props as Props;
+---
+
+<li class={`${!isActive && "text-gray-500"} ${marginClass}`}>{name}</li>
