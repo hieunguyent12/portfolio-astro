@@ -8,4 +8,4 @@ export interface Props {
 const {name, marginClass, isActive = false, href} = Astro.props as Props;
 ---
 
-<li class={`${!isActive && "text-gray-500"} ${marginClass} text-sm font-medium`}><a href={href}>{name}</a></li>
+<li class={`${!isActive && "text-slate-500"} ${marginClass} text-sm font-medium`}><a href={href}>{name}</a></li>
