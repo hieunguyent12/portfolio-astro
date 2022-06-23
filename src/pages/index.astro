@@ -1,56 +1,45 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ProjectCard from '../components/Card.astro';
+import MainLayout from '../layouts/MainLayout.astro';
+import HeaderLayout from '../layouts/HeaderLayout.astro';
+import Card from '../components/Card.astro';
 import githubSVG from '../images/github.svg';
 import linkedinSVG from '../images/linkedin.svg';
-import HeaderLink from '../components/HeaderLink.astro';
+import { projects } from '../resources/projects';
+import { hyphenate } from '../utils';
 ---
-<Layout title="Hieu Nguyen">
-	<main>
-		<ul class="flex">
-			<HeaderLink name="Home" isActive/>
-			<HeaderLink name="Projects" marginClass="mx-6"/>
-			<HeaderLink name="Blog"/>
-		</ul>
-
-		<div class="mt-10">
-			<h1 class="inline-block text-2xl welcome-msg">Hey, I'm Hieu <span class="waving-emoji">👋</span></h1>
-			<h3 class="text-md mt-2">I'm a front-end developer</h3>
-			<div class="flex mt-4">
+<MainLayout title="Hieu Nguyen">
+	<HeaderLayout isHomePage>
+		<div class="mt-6">
+			<h1 class="inline-block text-2xl text-gray-700 welcome-msg font-medium ">Hey, I'm <span class="text-gradient">Hieu</span> <span class="waving-emoji">👋</span></h1>
+			<h3 class="text-md mt-2 text-gray-700">I'm a front-end developer</h3>
+			<div class="flex mt-4 opacity-70">
 				<a target="_blank" href="https://github.com/hieunguyent12" class="social-media-icon"><img src={githubSVG}/></a>
 				<a target="_blank" href="https://github.com/hieunguyent12" class="social-media-icon mx-4"><img src={linkedinSVG}/></a>
 			</div>
 		</div>
 
 		<div class="mt-10">
-			<h1 class="text-xl">My Projects 🛠</h1>
+			<h1 class="text-lg text-gray-700">My Projects 🛠</h1>
 			<ul class="link-card-grid mt-2">
-				<ProjectCard title="Project 1" href="/" body="This is my project"/>
-				<ProjectCard title="Project 1" href="/" body="This is my project"/>
-				<ProjectCard title="Project 1" href="/" body="This is my project"/>
+				{projects.map(project => <Card title={project.name} href={`/projects/${hyphenate(project.name.toLowerCase())}`} body={project.description}/>)}
 			</ul>
 		</div>
 
 		<div class="mt-10">
-			<h1 class="text-xl">Blog Posts ✏️</h1>
+			<h1 class="text-lg text-gray-700">Blog Posts ✏️</h1>
 			<ul class="link-card-grid mt-2">
-				<ProjectCard title="Project 1" href="/" body="This is my project"/>
-				<ProjectCard title="Project 1" href="/" body="This is my project"/>
-				<ProjectCard title="Project 1" href="/" body="This is my project"/>
+				<Card title="Post 1" href="/" body="This is my project"/>
+				<Card title="Post 2" href="/" body="This is my project"/>
+				<Card title="Post 3" href="/" body="This is my project"/>
 			</ul>
 		</div>
-	</main>
-</Layout>
+	</HeaderLayout>
+</MainLayout>
 
 <style>
 	:root {
-		--astro-gradient: linear-gradient(0deg,#4F39FA, #DA62C4);
-	}
-
-	main {
-		margin: auto;
-    padding: 1em;
-		max-width: 60ch;
+		/* --astro-gradient: linear-gradient(0deg,#4F39FA, #DA62C4); */
+		--astro-gradient: linear-gradient(0deg, #55c273, #6981c7);
 	}
 
 	.text-gradient {

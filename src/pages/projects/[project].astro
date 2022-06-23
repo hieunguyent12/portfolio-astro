@@ -1,0 +1,88 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import HeaderLayout from '../../layouts/HeaderLayout.astro';
+import TechLabel from '../../components/TechLabel.astro';
+import { projects, ProjectType } from "../../resources/projects";
+import { getRandomLabelColor, hyphenate } from '../../utils';
+import Card from '../../components/Card.astro'
+
+interface Props {
+  project: ProjectType;
+  otherProjects: ProjectType[];
+}
+
+export function getStaticPaths() {
+  return projects.map((project, index) => {
+    const otherProjects = [];
+
+    // get two unique and random projects to recommend
+    while (otherProjects.length < 2) {
+      const randomIndex = Math.floor(Math.random() * projects.length)
+      const randomProject = projects[randomIndex];
+
+      if (otherProjects.indexOf(randomProject) === -1 && randomIndex !== index) {
+        otherProjects.push(randomProject);
+      }
+    }
+   
+
+    return {
+      params: {project: hyphenate(project.name).toLowerCase()},
+      props: {
+        project,
+        otherProjects
+      }
+    } 
+  })
+}
+
+const {project, otherProjects} = Astro.props as Props;
+const {name, description, githubURL, demoVideo, technologies} = project;
+---
+
+<MainLayout title="Projects">
+  <HeaderLayout isProjectPage>
+    <div class="flex justify-between items-center mt-8">
+      <h1 class="text-2xl">{name}</h1> 
+      <a href={githubURL} target="_blank" class="hover:underline">View source code</a>
+    </div>
+
+    <div class="mt-5">
+      <div class="flex">
+        <p>Built with:</p>
+        <div class="ml-3">
+          {technologies.map(tech => {
+            const labelColor = getRandomLabelColor();
+            return <TechLabel styleClasses={`mr-2 ${labelColor.bg} ${labelColor.text}`} text={tech}/>
+          })}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <p>{description}</p>
+    </div>
+
+    <div>
+      <!-- TODO: Add GIF of project -->
+      {demoVideo === "" && null}
+    </div>
+
+    <div class="mt-24">
+      <p class="mb-3">Checkout my other projects!</p>
+      <ul class="link-card-grid">
+        {otherProjects.map(project => <Card title={project.name} body={project.description} href={`/projects/${hyphenate(project.name.toLowerCase())}`}/>)}
+      </ul>
+    </div>
+  </HeaderLayout> 
+</MainLayout>
+
+
+<style>
+  .link-card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+		gap: 1rem;
+		padding: 0;
+	}
+</style>

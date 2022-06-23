@@ -1,0 +1,19 @@
+---
+import HeaderLink from "../components/HeaderLink.astro";
+
+interface Props {
+  isProjectPage?: boolean;
+  isHomePage?: boolean;
+  isBlogPage?: boolean;
+}
+
+const {isBlogPage = false, isProjectPage  = false, isHomePage  = false} = Astro.props as Props;
+---
+
+<ul class="flex">
+  <HeaderLink name="Home" href="/" isActive={isHomePage}/>
+  <HeaderLink name="Projects" href="/projects" marginClass="mx-6" isActive={isProjectPage}/>
+  <HeaderLink name="Blog" href="/blog" isActive={isBlogPage}/>
+</ul>
+
+<slot/>

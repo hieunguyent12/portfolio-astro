@@ -5,7 +5,7 @@ export interface Props {
 
 const { title } = Astro.props as Props;
 ---
-
+<!-- TODO: Add meta tags for twitter and SEO -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +15,9 @@ const { title } = Astro.props as Props;
 	<title>{title}</title>
 </head>
 <body>
-	<slot />
+  <main>
+	  <slot />
+  </main>
 </body>
 </html>
 
@@ -26,7 +28,7 @@ const { title } = Astro.props as Props;
     --font-size-xl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
 
     --color-text: hsl(12, 5%, 4%);
-    --color-bg: hsl(10, 21%, 95%);
+    --color-bg: hsl(0, 18%, 96%);
 		--color-border: hsl(17, 24%, 90%);
   }
 
@@ -40,6 +42,12 @@ const { title } = Astro.props as Props;
   body {
     margin: 0;
   }
+
+  main {
+		margin: auto;
+    padding: 1em;
+		max-width: 60ch;
+	}
 
   :global(h1) {
     font-size: var(--font-size-xl);
